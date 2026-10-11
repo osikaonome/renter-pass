@@ -1,0 +1,31 @@
+import { NextResponse, type NextRequest } from "next/server";
+import type { EmailOtpType } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/server";
+
+function safeNext(next: string | null): string {
+  // Only allow same-site relative paths, to avoid open redirects.
+  return next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
+}
+
+/**
+ * Magic-link landing. Supports both the token-hash flow (works when the link is
+ * opened in a different browser or the mail app's webview) and the PKCE code flow.
+ */
+export async function GET(request: NextRequest) {
+  const { searchParams, origin } = request.nextUrl;
+  const next = safeNext(searchParams.get("next"));
+  const supabase = await createClient();
+
+  const tokenHash = searchParams.get("token_hash");
+  const type = searchParams.get("type") as EmailOtpType | null;
+  const code = searchParams.get("code");
+
+  let ok = false;
+  if (tokenHash && type) {
+    ok = !(await supabase.auth.verifyOtp({ token_hash: tokenHash, type })).error;
+  } else if (code) {
+    ok = !(await supabase.auth.exchangeCodeForSession(code)).error;
+  }
+
+  return NextResponse.redirect(new URL(ok ? next : "/login?error=link", origin));
+}

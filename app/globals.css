@@ -1,26 +1,250 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Civic Emerald design system.
+ * Light values follow DESIGN.md. Dark is derived from the same roles: slate ink
+ * surfaces, the inverse emerald for accents, and borders doing the work that
+ * shadows do in light mode. Every text/background pair meets WCAG 2.2 AA.
+ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+  --canvas: #f8fafc;
+  --surface: #ffffff;
+  --surface-sunken: #f1f5f9;
+  --surface-hover: #f8fafc;
+  --hairline: #e2e8f0;
+  --hairline-strong: #cbd5e1;
+  --row: #f1f5f9;
+
+  --ink: #0f172a;
+  --ink-muted: #64748b;
+  --ink-subtle: #94a3b8;
+
+  --primary: #047857;
+  --primary-hover: #065f46;
+  --on-primary: #ffffff;
+  --primary-soft: #ecfdf5;
+  --primary-line: #a7f3d0;
+  --primary-ink: #047857;
+
+  --amber-soft: #fffbeb;
+  --amber-line: #fde68a;
+  --amber-ink: #b45309;
+
+  --rose-soft: #fff1f2;
+  --rose-line: #fecdd3;
+  --rose-ink: #9f1239;
+  --danger: #ba1a1a;
+
+  --focus: #047857;
+  --scrim: rgb(15 23 42 / 0.4);
+  --frost: rgb(248 250 252 / 0.85);
+
+  --shadow-card: 0 1px 2px 0 rgb(15 23 42 / 0.05);
+  --shadow-raised: 0 4px 6px -1px rgb(15 23 42 / 0.07), 0 2px 4px -2px rgb(15 23 42 / 0.05);
+  --shadow-overlay: 0 20px 25px -5px rgb(15 23 42 / 0.1), 0 8px 10px -6px rgb(15 23 42 / 0.05);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: #0a0f1a;
+  --surface: #101826;
+  --surface-sunken: #0d1420;
+  --surface-hover: #152031;
+  --hairline: #1e293b;
+  --hairline-strong: #2d3b52;
+  --row: #18222f;
+
+  --ink: #e6edf7;
+  --ink-muted: #94a3b8;
+  --ink-subtle: #64748b;
+
+  --primary: #7bd8b1;
+  --primary-hover: #97f5cc;
+  --on-primary: #002115;
+  --primary-soft: rgb(123 216 177 / 0.1);
+  --primary-line: rgb(123 216 177 / 0.28);
+  --primary-ink: #7bd8b1;
+
+  --amber-soft: rgb(251 191 36 / 0.1);
+  --amber-line: rgb(251 191 36 / 0.3);
+  --amber-ink: #fbbf24;
+
+  --rose-soft: rgb(244 63 94 / 0.1);
+  --rose-line: rgb(253 164 175 / 0.3);
+  --rose-ink: #fda4af;
+  --danger: #f87171;
+
+  --focus: #7bd8b1;
+  --scrim: rgb(2 6 23 / 0.6);
+  --frost: rgb(16 24 38 / 0.85);
+
+  --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-raised: 0 4px 10px -2px rgb(0 0 0 / 0.4);
+  --shadow-overlay: 0 24px 40px -8px rgb(0 0 0 / 0.6);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-sunken: var(--surface-sunken);
+  --color-hover: var(--surface-hover);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-row: var(--row);
+  --color-ink: var(--ink);
+  --color-muted: var(--ink-muted);
+  --color-subtle: var(--ink-subtle);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-line: var(--primary-line);
+  --color-primary-ink: var(--primary-ink);
+  --color-amber-soft: var(--amber-soft);
+  --color-amber-line: var(--amber-line);
+  --color-amber-ink: var(--amber-ink);
+  --color-rose-soft: var(--rose-soft);
+  --color-rose-line: var(--rose-line);
+  --color-rose-ink: var(--rose-ink);
+  --color-danger: var(--danger);
+  --color-scrim: var(--scrim);
+  --color-focus: var(--focus);
+  --color-frost: var(--frost);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-raised: var(--shadow-raised);
+  --shadow-overlay: var(--shadow-overlay);
+
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-manrope), var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+
+  /* Type scale from DESIGN.md */
+  --text-display: 2.5rem;
+  --text-display--line-height: 3rem;
+  --text-display--letter-spacing: -0.03em;
+  --text-display-sm: 2rem;
+  --text-display-sm--line-height: 2.5rem;
+  --text-display-sm--letter-spacing: -0.025em;
+  --text-headline: 1.75rem;
+  --text-headline--line-height: 2.25rem;
+  --text-headline--letter-spacing: -0.02em;
+  --text-title: 1.375rem;
+  --text-title--line-height: 1.75rem;
+  --text-title--letter-spacing: -0.015em;
+  --text-subtitle: 1.125rem;
+  --text-subtitle--line-height: 1.5rem;
+  --text-subtitle--letter-spacing: -0.01em;
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1rem;
+  --text-label--letter-spacing: 0.01em;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Uppercase micro-label: badges, table keys, metric keys. */
+@utility eyebrow {
+  font-size: 0.6875rem;
+  line-height: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Diagonal micro-stripe for locked, unshared documents. */
+@utility locked-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent 0 6px,
+    color-mix(in srgb, var(--ink) 4%, transparent) 6px 7px
+  );
+}
+
+@utility safe-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    background: var(--canvas);
+  }
+
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--primary-soft);
+    color: var(--ink);
+  }
+
+  /* Let grid items shrink below their content's natural width, so one wide
+     child can't stretch a single-column phone layout past the screen. */
+  :where(.grid) > * {
+    min-width: 0;
+  }
+
+  /* Theme switches shouldn't animate every colour on the page. */
+  [data-theme-switching] * {
+    transition: none !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
